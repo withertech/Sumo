@@ -1,0 +1,11 @@
+name: Sumo
+version: @version@
+main: com.withertech.sumo.Sumo
+api-version: 1.16
+authors: [Witherking25]
+description: Sumo wrestling minigame minecraft
+commands:
+  sumo:
+    description: Your description
+    usage: /sumo <subcommand>
+    permission: sumo.sumo
