@@ -17,20 +17,21 @@ public class CommandCreate extends SubCommand
     @Override
     public String getDescription()
     {
-        return null;
+        return "Creates a new arena with all \n   locations defaulting to the player's current location";
     }
 
     @Override
     public String getSyntax()
     {
-        return "/sumo create";
+        return "/sumo create <name>";
     }
 
     @Override
-    public void perform(Player player, String[] args)
+    public boolean perform(Player player, String[] args)
     {
-        ArenaManager.getManager().createArena(player.getLocation(), player.getLocation(), player.getLocation());
+        ArenaManager.getManager().createArena(player.getLocation(), player.getLocation(), player.getLocation(), args[1]);
         player.sendMessage("Created arena at " + player.getLocation().toString());
+        return true;
     }
 
     @Override

@@ -127,13 +127,14 @@ public class ArenaManager{
         return a;
     }
     //create arena
-    public Arena createArena(Location spawn, Location lobby, Location mainlobby){
+    public Arena createArena(Location spawn, Location lobby, Location mainlobby, String name){
         int num = arenaSize + 1;
         arenaSize++;
 
-        Arena a = new Arena(spawn, lobby, mainlobby, num);
+        Arena a = new Arena(spawn, lobby, mainlobby, name, num);
         arenas.add(a);
 
+        plugin.getConfig().set("Arenas." + num + ".Name", name);
         plugin.getConfig().set("Arenas." + num + ".Spawn", serializeLoc(spawn));
         plugin.getConfig().set("Arenas." + num + ".Lobby", serializeLoc(lobby));
         plugin.getConfig().set("Arenas." + num + ".MainLobby", serializeLoc(mainlobby));
@@ -145,23 +146,26 @@ public class ArenaManager{
         return a;
     }
 
-    public Arena reloadArena(Location spawn, Location lobby, Location mainlobby) {
+    public Arena reloadArena(Location spawn, Location lobby, Location mainlobby, String name) {
         int num = arenaSize + 1;
         arenaSize++;
 
-        Arena a = new Arena(spawn, lobby, mainlobby, num);
+        Arena a = new Arena(spawn, lobby, mainlobby, name, num);
         arenas.add(a);
 
         return a;
     }
 
-    public void setArena(int i, String key, Location location){
+    public void setArena(int i, String key, Location location, String value){
         Arena a = getArena(i);
         if(a == null) {
             return;
         }
         arenas.remove(a);
         switch (key){
+            case "Name":
+                a.name = value;
+                break;
             case "Spawn":
                 a.spawn = location;
                 break;
@@ -175,7 +179,11 @@ public class ArenaManager{
                 throw new IllegalArgumentException();
         }
         arenas.add(i - 1, a);
-        plugin.getConfig().set("Arenas." + i + "." + key, serializeLoc(location));
+        if(key.equals("Name")){
+            plugin.getConfig().set("Arenas." + i + "." + key, value);
+        }else {
+            plugin.getConfig().set("Arenas." + i + "." + key, serializeLoc(location));
+        }
         plugin.saveConfig();
     }
 
@@ -186,6 +194,7 @@ public class ArenaManager{
         }
         arenas.remove(a);
 
+        plugin.getConfig().set("Arenas." + i + ".Name", null);
         plugin.getConfig().set("Arenas." + i + ".Spawn", null);
         plugin.getConfig().set("Arenas." + i + ".Lobby", null);
         plugin.getConfig().set("Arenas." + i + ".MainLobby", null);
@@ -211,7 +220,7 @@ public class ArenaManager{
         }
 
         for(int i : plugin.getConfig().getIntegerList("Arenas.ArenaList")){
-            Arena a = reloadArena(deserializeLoc(plugin.getConfig().getString("Arenas." + i + ".Spawn")), deserializeLoc(plugin.getConfig().getString("Arenas." + i + ".Lobby")), deserializeLoc(plugin.getConfig().getString("Arenas." + i + ".MainLobby")));
+            Arena a = reloadArena(deserializeLoc(plugin.getConfig().getString("Arenas." + i + ".Spawn")), deserializeLoc(plugin.getConfig().getString("Arenas." + i + ".Lobby")), deserializeLoc(plugin.getConfig().getString("Arenas." + i + ".MainLobby")), plugin.getConfig().getString("Arenas." + i + ".Name"));
             a.id = i;
         }
     }

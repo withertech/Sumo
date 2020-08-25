@@ -1,0 +1,16 @@
+general:
+  "new-version-found": "%prefix% &eNew version found (v%version%)"
+  "fake-player-added": "%prefix% &aFake player added (%name%)"
+  "quit-message": "%prefix% &a%player_name% just quit the server!"
+  "latest-version": "%prefix% &aYou're using the latest version (v%version%)"
+  "join-message": "%prefix% &a%player_name% just joined the server!"
+  "reload-complete": "%prefix% &aReload complete! &7Took (%ms%ms)"
+"help-messages": >
+  &a====== %prefix% &a======
+  &7/fakeplayer &r> &eShows help message.
+  &7/fakeplayer help &r> &eShows help message.
+  &7/fakeplayer reload &r> &eReloads the plugin.
+  &7/fakeplayer version &r> &eChecks for update.
+  &7/fakeplayer menu &r> &eShows the main menu.
+errors:
+  "there-is-already": "%prefix% &cThere is already fake player such that name (%name%)."

@@ -19,27 +19,27 @@ public class CommandSet extends SubCommand
     @Override
     public String getDescription()
     {
-        return null;
+        return "Sets an arena's key from the \n   player's current location or the value parameter depending \n   on the key being set";
     }
 
     @Override
     public String getSyntax()
     {
-        return "/sumo set <id> <key>";
+        return "/sumo set <id> <key> [value]";
     }
 
     @Override
-    public void perform(Player player, String[] args)
+    public boolean perform(Player player, String[] args)
     {
         int num = 0;
         try{
             num = Integer.parseInt(args[1]);
-        }catch(NumberFormatException e){
+        }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
             player.sendMessage("Invalid arena ID");
-        }catch(ArrayIndexOutOfBoundsException e) {
-            player.sendMessage("Invalid arena ID");
+            return false;
         }
-        ArenaManager.getManager().setArena(num, args[2], player.getLocation());
+        ArenaManager.getManager().setArena(num, args[2], player.getLocation(), args[3]);
+        return true;
     }
 
     @Override
@@ -57,6 +57,7 @@ public class CommandSet extends SubCommand
         if (args.length == 3)
         {
             List<String> key = new ArrayList<String>();
+            key.add("Name");
             key.add("Spawn");
             key.add("Lobby");
             key.add("MainLobby");

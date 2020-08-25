@@ -22,6 +22,7 @@ public class CommandManager implements TabExecutor
         subcommands.add(new CommandRemove());
         subcommands.add(new CommandSet());
         subcommands.add(new CommandStart());
+        subcommands.add(new CommandHelp());
     }
 
     @Override
@@ -34,10 +35,19 @@ public class CommandManager implements TabExecutor
             if (args.length > 0){
                 for (int i = 0; i < getSubCommands().size(); i++){
                     if (args[0].equalsIgnoreCase(getSubCommands().get(i).getName())){
-                        getSubCommands().get(i).perform(p, args);
+                        if(getSubCommands().get(i).perform(p, args)){
+                            return true;
+                        }else{
+                            new CommandHelp().perform(p, args);
+                        }
                     }
                 }
+            }else if(args.length == 0){
+
+                new CommandHelp().perform(p, args);
+
             }
+
 
         }
 

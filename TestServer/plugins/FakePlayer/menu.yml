@@ -1,0 +1,42 @@
+"fake-players":
+  add:
+    item:
+      amount: 1
+      material: APPLE
+      lore:
+        - "&7Click and add fake player to your location."
+      "display-name": "&aAdd Fake Player"
+    column: 4
+    row: 4
+  next:
+    item:
+      amount: 1
+      material: ARROW
+      lore:
+        - "&7Click and see the next page."
+      "display-name": "&aNext"
+    column: 5
+    row: 5
+  "fake-player":
+    item:
+      amount: 1
+      material: PLAYER_HEAD
+      lore:
+        - "&7Right Click to delete this fake player."
+        - "&7Left Click to teleport this fake player."
+        - "&7Middle Click to toggle visible this fake player."
+      "display-name": "&a%player_name%"
+    column: 0
+    row: 0
+  previous:
+    item:
+      amount: 1
+      material: ARROW
+      lore:
+        - "&7Click and see the previous page."
+      "display-name": "&aPrevious"
+    column: 3
+    row: 5
+  "put-less-than-16-charater": Put less than 16 char!
+  "type-fake-player": Type fake player name
+  title: "&eFake Players"

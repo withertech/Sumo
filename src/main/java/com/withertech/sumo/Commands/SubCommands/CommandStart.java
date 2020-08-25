@@ -18,7 +18,7 @@ public class CommandStart extends SubCommand
     @Override
     public String getDescription()
     {
-        return null;
+        return "Starts an arena's game";
     }
 
     @Override
@@ -28,17 +28,17 @@ public class CommandStart extends SubCommand
     }
 
     @Override
-    public void perform(Player player, String[] args)
+    public boolean perform(Player player, String[] args)
     {
         int num = 0;
         try{
             num = Integer.parseInt(args[1]);
-        }catch(NumberFormatException e){
+        }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
             player.sendMessage("Invalid arena ID");
-        }catch(ArrayIndexOutOfBoundsException e) {
-            player.sendMessage("Invalid arena ID");
+            return false;
         }
         ArenaManager.getManager().startGame(num);
+        return true;
     }
 
     @Override

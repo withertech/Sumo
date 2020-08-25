@@ -18,7 +18,7 @@ public class CommandJoin extends SubCommand
     @Override
     public String getDescription()
     {
-        return null;
+        return "Joins an arena's lobby";
     }
 
     @Override
@@ -28,20 +28,21 @@ public class CommandJoin extends SubCommand
     }
 
     @Override
-    public void perform(Player player, String[] args)
+    public boolean perform(Player player, String[] args)
     {
         int num = 0;
         try{
             num = Integer.parseInt(args[1]);
-        }catch(NumberFormatException e){
+        }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
             player.sendMessage("Invalid arena ID");
-        }catch(ArrayIndexOutOfBoundsException e) {
-            player.sendMessage("Invalid arena ID");
+            return false;
         }
         if(!ArenaManager.getManager().isInGame(player)){
             ArenaManager.getManager().addPlayer(player, num);
+            return true;
         } else{
             player.sendMessage("You are already in a game");
+            return false;
         }
     }
 

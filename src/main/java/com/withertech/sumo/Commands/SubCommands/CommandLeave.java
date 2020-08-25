@@ -18,7 +18,7 @@ public class CommandLeave extends SubCommand
     @Override
     public String getDescription()
     {
-        return null;
+        return "Leaves the player's currently joined arena";
     }
 
     @Override
@@ -28,10 +28,11 @@ public class CommandLeave extends SubCommand
     }
 
     @Override
-    public void perform(Player player, String[] args)
+    public boolean perform(Player player, String[] args)
     {
         ArenaManager.getManager().removePlayer(player);
         player.sendMessage("You have left the arena!");
+        return true;
     }
 
     @Override
