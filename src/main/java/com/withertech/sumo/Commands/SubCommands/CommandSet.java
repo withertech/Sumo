@@ -29,16 +29,29 @@ public class CommandSet extends SubCommand
     }
 
     @Override
+    public String getPermission()
+    {
+        return "sumo.admin";
+    }
+
+    @Override
     public boolean perform(Player player, String[] args)
     {
-        int num = 0;
+        Integer num = 0;
         try{
             num = Integer.parseInt(args[1]);
         }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
             player.sendMessage("Invalid arena ID");
             return false;
         }
-        ArenaManager.getManager().setArena(num, args[2], player.getLocation(), args[3]);
+        if (args.length > 3)
+        {
+            ArenaManager.getManager().setArena(num, args[2], player.getLocation(), args[3]);
+        }
+        else
+        {
+            ArenaManager.getManager().setArena(num, args[2], player.getLocation(), "");
+        }
         return true;
     }
 

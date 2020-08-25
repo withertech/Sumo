@@ -28,9 +28,15 @@ public class CommandRemove extends SubCommand
     }
 
     @Override
+    public String getPermission()
+    {
+        return "sumo.admin";
+    }
+
+    @Override
     public boolean perform(Player player, String[] args)
     {
-        int num = 0;
+        Integer num = 0;
         try{
             num = Integer.parseInt(args[1]);
         }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
@@ -47,7 +53,7 @@ public class CommandRemove extends SubCommand
         if (args.length == 2)
         {
             List<String> id = new ArrayList<String>();
-            for (int i : ArenaManager.plugin.getConfig().getIntegerList("Arenas.ArenaList"))
+            for (Integer i : ArenaManager.plugin.getConfig().getIntegerList("Arenas.ArenaList"))
             {
                 id.add(Integer.toString(i));
             }

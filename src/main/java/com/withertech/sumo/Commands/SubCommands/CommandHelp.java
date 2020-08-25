@@ -28,6 +28,12 @@ public class CommandHelp extends SubCommand
         return "/sumo help";
     }
 
+    @Override
+    public String getPermission()
+    {
+        return null;
+    }
+
 
     @Override
     public boolean perform(Player p, String[] args) {

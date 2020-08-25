@@ -1,6 +1,8 @@
 package com.withertech.sumo;
 
 import com.withertech.sumo.Commands.CommandManager;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -89,12 +91,12 @@ public class GameListener implements Listener{
         if(block == Material.LAVA && ArenaManager.getManager().isInGame(e.getPlayer()) && ArenaManager.getManager().getArenaFromPlayer(e.getPlayer()).started)
         {
             Arena a = ArenaManager.getManager().getArenaFromPlayer(e.getPlayer());
-            e.getPlayer().sendMessage("You Died!");
+            e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("You Died!").color(net.md_5.bungee.api.ChatColor.RED).bold(true).create());
             ArenaManager.getManager().removePlayer(e.getPlayer());
             if((a.getPlayers().size() == 1) ){
                 for (String pname:a.getPlayers())
                 {
-                    Bukkit.getPlayer(pname).sendMessage("You Won!");
+                    Bukkit.getPlayer(pname).spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("You Won!").color(net.md_5.bungee.api.ChatColor.GREEN).bold(true).create());
                     ArenaManager.getManager().removePlayer(Bukkit.getPlayer(pname));
                 }
             }

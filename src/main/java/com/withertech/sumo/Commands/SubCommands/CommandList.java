@@ -29,6 +29,12 @@ public class CommandList extends SubCommand
     }
 
     @Override
+    public String getPermission()
+    {
+        return null;
+    }
+
+    @Override
     public boolean perform(Player player, String[] args)
     {
         player.sendMessage(" ");
@@ -37,7 +43,7 @@ public class CommandList extends SubCommand
         if (!ArenaManager.plugin.getConfig().getIntegerList("Arenas.ArenaList").isEmpty())
         {
 
-            for (int i : ArenaManager.plugin.getConfig().getIntegerList("Arenas.ArenaList"))
+            for (Integer i : ArenaManager.plugin.getConfig().getIntegerList("Arenas.ArenaList"))
             {
                 player.sendMessage(ChatColor.DARK_GRAY + " - " + ChatColor.AQUA + Integer.toString(i) + ": " + ArenaManager.plugin.getConfig().getString("Arenas." + i + ".Name"));
             }

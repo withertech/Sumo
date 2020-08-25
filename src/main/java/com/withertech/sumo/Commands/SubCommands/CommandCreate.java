@@ -27,9 +27,23 @@ public class CommandCreate extends SubCommand
     }
 
     @Override
+    public String getPermission()
+    {
+        return "sumo.admin";
+    }
+
+    @Override
     public boolean perform(Player player, String[] args)
     {
-        ArenaManager.getManager().createArena(player.getLocation(), player.getLocation(), player.getLocation(), args[1]);
+        String name = null;
+        try
+        {
+            name = args[1];
+        } catch (ArrayIndexOutOfBoundsException e)
+        {
+            return false;
+        }
+        ArenaManager.getManager().createArena(player.getLocation(), player.getLocation(), player.getLocation(), name);
         player.sendMessage("Created arena at " + player.getLocation().toString());
         return true;
     }

@@ -1,8 +1,8 @@
 Arenas:
+  ArenaList:
+  - 1
   '1':
+    Name: Test1
     Spawn: world,223,65,204
     Lobby: world,218,64,204
     MainLobby: world,218,64,200
-    Name: Test
-  ArenaList:
-  - 1

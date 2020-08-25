@@ -28,6 +28,12 @@ public class CommandLeave extends SubCommand
     }
 
     @Override
+    public String getPermission()
+    {
+        return null;
+    }
+
+    @Override
     public boolean perform(Player player, String[] args)
     {
         ArenaManager.getManager().removePlayer(player);

@@ -22,7 +22,7 @@ public class ArenaManager{
     Map<String, ItemStack[]> armor = new HashMap<String, ItemStack[]>();
     //list of arenas
     List<Arena> arenas = new ArrayList<Arena>();
-    int arenaSize = 0;
+    Integer arenaSize = 0;
 
     public static Sumo plugin;
     public ArenaManager(Sumo sumo) {
@@ -49,7 +49,7 @@ public class ArenaManager{
     }
 
     //add players to the arena, save their inventory
-    public void addPlayer(Player p, int i){
+    public void addPlayer(Player p, Integer i){
         Arena a = getArena(i);//get the arena you want to join
         if(a == null){//make sure it is not null
             p.sendMessage("Invalid arena!");
@@ -98,7 +98,7 @@ public class ArenaManager{
         p.setFireTicks(0);
     }
 
-    public void startGame(int i){
+    public void startGame(Integer i){
         Arena a = getArena(i);//get the arena you want to join
         if(a == null){//make sure it is not null
             return;
@@ -128,19 +128,19 @@ public class ArenaManager{
     }
     //create arena
     public Arena createArena(Location spawn, Location lobby, Location mainlobby, String name){
-        int num = arenaSize + 1;
+        Integer num = arenaSize + 1;
         arenaSize++;
 
         Arena a = new Arena(spawn, lobby, mainlobby, name, num);
         arenas.add(a);
-
+        List<Integer> list = plugin.getConfig().getIntegerList("Arenas.ArenaList");
+        list.add(num);
+        plugin.getConfig().set("Arenas.ArenaList", list);
         plugin.getConfig().set("Arenas." + num + ".Name", name);
         plugin.getConfig().set("Arenas." + num + ".Spawn", serializeLoc(spawn));
         plugin.getConfig().set("Arenas." + num + ".Lobby", serializeLoc(lobby));
         plugin.getConfig().set("Arenas." + num + ".MainLobby", serializeLoc(mainlobby));
-        List<Integer> list = plugin.getConfig().getIntegerList("Arenas.ArenaList");
-        list.add(num);
-        plugin.getConfig().set("Arenas.ArenaList", list);
+
         plugin.saveConfig();
 
         return a;
@@ -156,7 +156,7 @@ public class ArenaManager{
         return a;
     }
 
-    public void setArena(int i, String key, Location location, String value){
+    public void setArena(Integer i, String key, Location location, String value){
         Arena a = getArena(i);
         if(a == null) {
             return;
@@ -187,20 +187,21 @@ public class ArenaManager{
         plugin.saveConfig();
     }
 
-    public void removeArena(int i) {
+    public void removeArena(Integer i) {
         Arena a = getArena(i);
         if(a == null) {
             return;
         }
         arenas.remove(a);
-
+        List<Integer> list = plugin.getConfig().getIntegerList("Arenas.ArenaList");
+        list.remove(i);
+        plugin.getConfig().set("Arenas.ArenaList", list);
         plugin.getConfig().set("Arenas." + i + ".Name", null);
         plugin.getConfig().set("Arenas." + i + ".Spawn", null);
         plugin.getConfig().set("Arenas." + i + ".Lobby", null);
         plugin.getConfig().set("Arenas." + i + ".MainLobby", null);
-        List<Integer> list = plugin.getConfig().getIntegerList("Arenas.ArenaList");
-        list.remove(i - 1);
-        plugin.getConfig().set("Arenas.ArenaList", list);
+        plugin.getConfig().set("Arenas." + i, null);
+
         plugin.saveConfig();
     }
 

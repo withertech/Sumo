@@ -28,9 +28,15 @@ public class CommandStart extends SubCommand
     }
 
     @Override
+    public String getPermission()
+    {
+        return null;
+    }
+
+    @Override
     public boolean perform(Player player, String[] args)
     {
-        int num = 0;
+        Integer num = 0;
         try{
             num = Integer.parseInt(args[1]);
         }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){

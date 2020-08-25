@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.withertech.sumo.Commands.SubCommands.*;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -35,10 +36,15 @@ public class CommandManager implements TabExecutor
             if (args.length > 0){
                 for (int i = 0; i < getSubCommands().size(); i++){
                     if (args[0].equalsIgnoreCase(getSubCommands().get(i).getName())){
-                        if(getSubCommands().get(i).perform(p, args)){
-                            return true;
-                        }else{
-                            new CommandHelp().perform(p, args);
+                        if (getSubCommands().get(i).getPermission() == null || p.hasPermission(getSubCommands().get(i).getPermission()) )
+                        {
+                            if(getSubCommands().get(i).perform(p, args)){
+                                return true;
+                            }else{
+                                new CommandHelp().perform(p, args);
+                            }
+                        }else {
+                            p.sendMessage(ChatColor.RED + "You do not have permission to use this command");
                         }
                     }
                 }

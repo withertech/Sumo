@@ -9,7 +9,7 @@ import java.util.List;
 public class Arena{
 
     //you want some info about the arena stored here
-    public int id = 0;//the arena id
+    public Integer id = 0;//the arena id
     public boolean started = false;
     public String name = "";
     public Location spawn = null;
@@ -18,7 +18,7 @@ public class Arena{
     List<String> players = new ArrayList<String>();//list of players
 
     //now let's make a few getters/setters, and a constructor
-    public Arena(Location spawn, Location lobby, Location mainlobby, String name, int id){
+    public Arena(Location spawn, Location lobby, Location mainlobby, String name, Integer id){
         this.spawn = spawn;
         this.lobby = lobby;
         this.mainlobby = mainlobby;
@@ -26,7 +26,7 @@ public class Arena{
         this.id = id;
     }
 
-    public int getId(){
+    public Integer getId(){
         return this.id;
     }
 
