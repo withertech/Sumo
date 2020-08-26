@@ -2,6 +2,7 @@ package com.withertech.sumo.Commands.SubCommands;
 
 import com.withertech.sumo.ArenaManager;
 import com.withertech.sumo.Commands.SubCommand;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class CommandCreate extends SubCommand
             return false;
         }
         ArenaManager.getManager().createArena(player.getLocation(), player.getLocation(), player.getLocation(), name);
-        player.sendMessage("Created arena at " + player.getLocation().toString());
+        player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.AQUA + "Created arena at: \nWorld: " + player.getLocation().getWorld().getName() + "\nX: " + player.getLocation().getBlockX() + "\nY: " + player.getLocation().getBlockY() + "\nZ: " + player.getLocation().getBlockZ() + "\nYaw: " + player.getLocation().getYaw() + "\nPitch: " + player.getLocation().getPitch());
         return true;
     }
 

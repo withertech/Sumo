@@ -44,7 +44,7 @@ public class CommandList extends SubCommand
 
             for (Integer i : ArenaManager.plugin.getArenaConfig().getIntegerList("Arenas.ArenaList"))
             {
-                player.sendMessage(ChatColor.DARK_GRAY + " - " + ChatColor.AQUA + Integer.toString(i) + ": " + ArenaManager.plugin.getArenaConfig().getString("Arenas." + i + ".Name"));
+                player.sendMessage(ChatColor.DARK_GRAY + " - " + ChatColor.AQUA + i + ": " + ArenaManager.plugin.getArenaConfig().getString("Arenas." + i + ".Name"));
             }
             player.sendMessage(" ");
             player.sendMessage(ChatColor.GREEN + "============================");

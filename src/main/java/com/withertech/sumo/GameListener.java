@@ -59,7 +59,7 @@ public class GameListener implements Listener{
 
     @EventHandler
     public void onDamange(EntityDamageByEntityEvent e){
-        if(e.getEntity() instanceof Player && players.contains(((Player) e.getEntity()).getName())){
+        if(e.getEntity() instanceof Player && players.contains(e.getEntity().getName())){
             e.setCancelled(true);
         }
 
@@ -69,12 +69,23 @@ public class GameListener implements Listener{
     public void onSignChange(SignChangeEvent e) {
         String line1 = e.getLine(0);
         String line2 = e.getLine(1);
-        if (line1 != null && line1.equals("[Sumo]")) {
+        if (line1 != null && line1.equals("[Sumo.Join]")) {
             e.setLine(0, ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "]");
+            if(line2 != null && !line2.equals("")){
+                e.setLine(2, ChatColor.AQUA + line2);
+                e.setLine(1, ChatColor.AQUA + "Join");
+            }
         }
-        if(line2 != null && !line2.equals("")){
-            e.setLine(2, ChatColor.AQUA + line2);
-            e.setLine(1, "");
+        if (line1 != null && line1.equals("[Sumo.Leave]")) {
+            e.setLine(0, ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "]");
+            e.setLine(1, ChatColor.AQUA + "Leave");
+        }
+        if (line1 != null && line1.equals("[Sumo.Start]")) {
+            e.setLine(0, ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "]");
+            if(line2 != null && !line2.equals("")){
+                e.setLine(2, ChatColor.AQUA + line2);
+                e.setLine(1, ChatColor.AQUA + "Start");
+            }
         }
     }
 
@@ -87,27 +98,41 @@ public class GameListener implements Listener{
 
         Player p = e.getPlayer();
         if (p.hasPermission("sign.use")) {
-
             Block b = e.getClickedBlock();
             if (b.getType() == Material.OAK_SIGN || b.getType() == Material.OAK_WALL_SIGN || b.getType() == Material.SPRUCE_SIGN || b.getType() == Material.SPRUCE_WALL_SIGN || b.getType() == Material.BIRCH_SIGN || b.getType() == Material.BIRCH_WALL_SIGN || b.getType() == Material.JUNGLE_SIGN || b.getType() == Material.JUNGLE_WALL_SIGN || b.getType() == Material.DARK_OAK_SIGN || b.getType() == Material.DARK_OAK_WALL_SIGN || b.getType() == Material.ACACIA_SIGN || b.getType() == Material.ACACIA_WALL_SIGN || b.getType() == Material.CRIMSON_SIGN || b.getType() == Material.CRIMSON_WALL_SIGN || b.getType() == Material.WARPED_SIGN || b.getType() == Material.WARPED_WALL_SIGN) {
-
                 Sign sign = (Sign) b.getState();
                 if (ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase("[Sumo]")) {
-                    if(sign.getLine(2) != null && !sign.getLine(2).equals("")) {
-                        for (Integer i : ArenaManager.plugin.getArenaConfig().getIntegerList("Arenas.ArenaList"))
-                        {
-                            if(ArenaManager.getManager().getArena(i).name.equalsIgnoreCase(ChatColor.stripColor(sign.getLine(2)))){
-                                Bukkit.dispatchCommand(p, "sumo join " + i);
+                    if (ChatColor.stripColor(sign.getLine(1)).equalsIgnoreCase("Join"))
+                    {
+                        if(sign.getLine(2) != null && !sign.getLine(2).equals("")) {
+                            for (Integer i : ArenaManager.plugin.getArenaConfig().getIntegerList("Arenas.ArenaList"))
+                            {
+                                if(ArenaManager.getManager().getArena(i).name.equalsIgnoreCase(ChatColor.stripColor(sign.getLine(2)))){
+                                    Bukkit.dispatchCommand(p, "sumo join " + i);
+                                }
                             }
                         }
-
-
+                    }
+                    else if (ChatColor.stripColor(sign.getLine(1)).equalsIgnoreCase("Leave"))
+                    {
+                        if(ArenaManager.getManager().isInGame(p)){
+                            Bukkit.dispatchCommand(p, "sumo leave");
+                        }
+                    }
+                    else if (ChatColor.stripColor(sign.getLine(1)).equalsIgnoreCase("Start"))
+                    {
+                        if(sign.getLine(2) != null && !sign.getLine(2).equals("")) {
+                            for (Integer i : ArenaManager.plugin.getArenaConfig().getIntegerList("Arenas.ArenaList"))
+                            {
+                                if(ArenaManager.getManager().getArena(i).name.equalsIgnoreCase(ChatColor.stripColor(sign.getLine(2)))){
+                                    Bukkit.dispatchCommand(p, "sumo start " + i);
+                                }
+                            }
+                        }
                     }
                 }
             }
-
         }
-
     }
     @EventHandler
     public void PlayerMoveEvent(PlayerMoveEvent e){

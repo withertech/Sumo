@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class CommandManager implements TabExecutor
 {
-    private ArrayList<SubCommand> subcommands = new ArrayList<>();
+    private final ArrayList<SubCommand> subcommands = new ArrayList<>();
 
     public CommandManager(){
         //Get the subcommands so we can access them in the command manager class(here)

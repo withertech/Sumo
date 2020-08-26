@@ -2,6 +2,8 @@ package com.withertech.sumo.Commands.SubCommands;
 
 import com.withertech.sumo.ArenaManager;
 import com.withertech.sumo.Commands.SubCommand;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class CommandLeave extends SubCommand
     public boolean perform(Player player, String[] args)
     {
         ArenaManager.getManager().removePlayer(player);
-        player.sendMessage("You have left the arena!");
+        Bukkit.broadcastMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.YELLOW + player.getName() + " Has Left The Arena");
         return true;
     }
 

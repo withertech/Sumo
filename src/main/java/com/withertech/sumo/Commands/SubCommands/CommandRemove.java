@@ -2,6 +2,7 @@ package com.withertech.sumo.Commands.SubCommands;
 
 import com.withertech.sumo.ArenaManager;
 import com.withertech.sumo.Commands.SubCommand;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -37,14 +38,27 @@ public class CommandRemove extends SubCommand
     public boolean perform(Player player, String[] args)
     {
         Integer num = 0;
-        try{
-            num = Integer.parseInt(args[1]);
-        }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
-            player.sendMessage("Invalid arena ID");
+        if (args.length == 2)
+        {
+            try{
+                num = Integer.parseInt(args[1]);
+            }catch(NumberFormatException e){
+                player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.RED + "Invalid arena ID");
+                return false;
+            }
+            if(ArenaManager.getManager().getArena(num) == null){
+                player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.RED + "Invalid arena ID");
+                return false;
+            }
+            ArenaManager.getManager().removeArena(num);
+            player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.AQUA + "Removed arena with id: " + num);
+            return true;
+        }
+        else
+        {
+            player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.RED + "Invalid arena ID");
             return false;
         }
-        ArenaManager.getManager().removeArena(num);
-        return true;
     }
 
     @Override

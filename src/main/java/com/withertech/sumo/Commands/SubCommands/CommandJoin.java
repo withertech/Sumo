@@ -2,6 +2,9 @@ package com.withertech.sumo.Commands.SubCommands;
 
 import com.withertech.sumo.ArenaManager;
 import com.withertech.sumo.Commands.SubCommand;
+import org.apache.commons.lang.NullArgumentException;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -37,17 +40,29 @@ public class CommandJoin extends SubCommand
     public boolean perform(Player player, String[] args)
     {
         Integer num = 0;
-        try{
-            num = Integer.parseInt(args[1]);
-        }catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
-            player.sendMessage("Invalid arena ID");
-            return false;
+        if (args.length == 2)
+        {
+            try{
+                num = Integer.parseInt(args[1]);
+            }catch(NumberFormatException e){
+                player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.RED + "Invalid arena ID");
+                return false;
+            }
+            if(ArenaManager.getManager().getArena(num) == null){
+                player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.RED + "Invalid arena ID");
+                return false;
+            }
+            if(!ArenaManager.getManager().isInGame(player)){
+                ArenaManager.getManager().addPlayer(player, num);
+                Bukkit.broadcastMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.YELLOW + player.getName() + " Has Joined The Arena");
+                return true;
+            } else{
+                player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.RED + "You are already in a game");
+                return false;
+            }
         }
-        if(!ArenaManager.getManager().isInGame(player)){
-            ArenaManager.getManager().addPlayer(player, num);
-            return true;
-        } else{
-            player.sendMessage("You are already in a game");
+        else {
+            player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.RED + "Invalid arena ID");
             return false;
         }
     }

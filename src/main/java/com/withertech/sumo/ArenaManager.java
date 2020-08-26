@@ -1,6 +1,7 @@
 package com.withertech.sumo;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ public class ArenaManager{
     //a few other fields
     Map<String, ItemStack[]> inv = new HashMap<String, ItemStack[]>();
     Map<String, ItemStack[]> armor = new HashMap<String, ItemStack[]>();
+    Map<String, GameMode> gm = new HashMap<String, GameMode>();
     //list of arenas
     List<Arena> arenas = new ArrayList<Arena>();
     Integer arenaSize = 0;
@@ -59,9 +61,13 @@ public class ArenaManager{
 
         p.getInventory().setArmorContents(null);
         p.getInventory().clear();
+        gm.put(p.getName(), p.getGameMode());
+
+
 
         locs.put(p.getName(), p.getLocation());
         p.teleport(a.lobby);//teleport to the arena lobby
+        p.setGameMode(GameMode.SURVIVAL);
     }
 
     //remove players
@@ -86,10 +92,15 @@ public class ArenaManager{
         p.getInventory().setContents(inv.get(p.getName()));//restore inventory
         p.getInventory().setArmorContents(armor.get(p.getName()));
 
+
+
         inv.remove(p.getName());//remove entries from hashmaps
         armor.remove(p.getName());
+
 //        p.teleport(locs.get(p.getName()));
         p.teleport(a.mainlobby);
+        p.setGameMode(gm.get(p.getName()));
+        gm.remove(p.getName());
         locs.remove(p.getName());
 
         p.setFireTicks(0);
@@ -224,10 +235,10 @@ public class ArenaManager{
     }
 
     public static String serializeLoc(Location l){
-        return l.getWorld().getName()+","+l.getBlockX()+","+l.getBlockY()+","+l.getBlockZ();
+        return l.getWorld().getName()+","+l.getBlockX()+","+l.getBlockY()+","+l.getBlockZ()+","+l.getYaw()+","+l.getPitch();
     }
     public static Location deserializeLoc(String s){
         String[] st = s.split(",");
-        return new Location(Bukkit.getWorld(st[0]), Integer.parseInt(st[1]), Integer.parseInt(st[2]), Integer.parseInt(st[3]));
+        return new Location(Bukkit.getWorld(st[0]), Integer.parseInt(st[1]), Integer.parseInt(st[2]), Integer.parseInt(st[3]), Float.parseFloat(st[4]), Float.parseFloat(st[5]));
     }
 }

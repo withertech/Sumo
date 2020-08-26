@@ -3,6 +3,7 @@ package com.withertech.sumo.Commands.SubCommands;
 import com.withertech.sumo.Arena;
 import com.withertech.sumo.ArenaManager;
 import com.withertech.sumo.Commands.SubCommand;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -47,10 +48,12 @@ public class CommandSet extends SubCommand
         if (args.length > 3)
         {
             ArenaManager.getManager().setArena(num, args[2], player.getLocation(), args[3]);
+            player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.AQUA + "Set " + args[2] + " of arena with id: " + num + " to " + args[3]);
         }
         else
         {
             ArenaManager.getManager().setArena(num, args[2], player.getLocation(), "");
+            player.sendMessage(ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "] " + ChatColor.AQUA + "Set " + args[2] + " of arena with id: " + num + " to \nWorld: " + player.getLocation().getWorld().getName() + "\nX: " + player.getLocation().getBlockX() + "\nY: " + player.getLocation().getBlockY() + "\nZ: " + player.getLocation().getBlockZ() + "\nYaw: " + player.getLocation().getYaw() + "\nPitch: " + player.getLocation().getPitch());
         }
         return true;
     }

@@ -11,7 +11,7 @@ public class ScoreboardManager
     public static void setScoreboard(Player player){
         Objective obj;
         if(board.getObjective("ServerName") == null){
-            obj = board.registerNewObjective("ServerName", "dummy", ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE);
+            obj = board.registerNewObjective("ServerName", "dummy", ChatColor.GRAY + "[" + ChatColor.AQUA + "Sumo" + ChatColor.GRAY + "]" + ChatColor.WHITE);
         }else {
             obj = board.getObjective("ServerName");
         }
