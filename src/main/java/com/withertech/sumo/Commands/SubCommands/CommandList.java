@@ -5,7 +5,6 @@ import com.withertech.sumo.Commands.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CommandList extends SubCommand
@@ -40,12 +39,12 @@ public class CommandList extends SubCommand
         player.sendMessage(" ");
         player.sendMessage(ChatColor.GREEN + "======= " + ChatColor.GRAY + "[" + ChatColor.AQUA + ChatColor.BOLD + "Sumo" + ChatColor.GRAY + "] " + ChatColor.YELLOW + "Arenas " + ChatColor.GREEN + "=======");
         player.sendMessage(" ");
-        if (!ArenaManager.plugin.getConfig().getIntegerList("Arenas.ArenaList").isEmpty())
+        if (!ArenaManager.plugin.getArenaConfig().getIntegerList("Arenas.ArenaList").isEmpty())
         {
 
-            for (Integer i : ArenaManager.plugin.getConfig().getIntegerList("Arenas.ArenaList"))
+            for (Integer i : ArenaManager.plugin.getArenaConfig().getIntegerList("Arenas.ArenaList"))
             {
-                player.sendMessage(ChatColor.DARK_GRAY + " - " + ChatColor.AQUA + Integer.toString(i) + ": " + ArenaManager.plugin.getConfig().getString("Arenas." + i + ".Name"));
+                player.sendMessage(ChatColor.DARK_GRAY + " - " + ChatColor.AQUA + Integer.toString(i) + ": " + ArenaManager.plugin.getArenaConfig().getString("Arenas." + i + ".Name"));
             }
             player.sendMessage(" ");
             player.sendMessage(ChatColor.GREEN + "============================");

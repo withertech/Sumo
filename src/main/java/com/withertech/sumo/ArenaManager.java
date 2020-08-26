@@ -133,15 +133,15 @@ public class ArenaManager{
 
         Arena a = new Arena(spawn, lobby, mainlobby, name, num);
         arenas.add(a);
-        List<Integer> list = plugin.getConfig().getIntegerList("Arenas.ArenaList");
+        List<Integer> list = plugin.getArenaConfig().getIntegerList("Arenas.ArenaList");
         list.add(num);
-        plugin.getConfig().set("Arenas.ArenaList", list);
-        plugin.getConfig().set("Arenas." + num + ".Name", name);
-        plugin.getConfig().set("Arenas." + num + ".Spawn", serializeLoc(spawn));
-        plugin.getConfig().set("Arenas." + num + ".Lobby", serializeLoc(lobby));
-        plugin.getConfig().set("Arenas." + num + ".MainLobby", serializeLoc(mainlobby));
+        plugin.getArenaConfig().set("Arenas.ArenaList", list);
+        plugin.getArenaConfig().set("Arenas." + num + ".Name", name);
+        plugin.getArenaConfig().set("Arenas." + num + ".Spawn", serializeLoc(spawn));
+        plugin.getArenaConfig().set("Arenas." + num + ".Lobby", serializeLoc(lobby));
+        plugin.getArenaConfig().set("Arenas." + num + ".MainLobby", serializeLoc(mainlobby));
 
-        plugin.saveConfig();
+        plugin.saveArenaConfig();
 
         return a;
     }
@@ -180,11 +180,11 @@ public class ArenaManager{
         }
         arenas.add(i - 1, a);
         if(key.equals("Name")){
-            plugin.getConfig().set("Arenas." + i + "." + key, value);
+            plugin.getArenaConfig().set("Arenas." + i + "." + key, value);
         }else {
-            plugin.getConfig().set("Arenas." + i + "." + key, serializeLoc(location));
+            plugin.getArenaConfig().set("Arenas." + i + "." + key, serializeLoc(location));
         }
-        plugin.saveConfig();
+        plugin.saveArenaConfig();
     }
 
     public void removeArena(Integer i) {
@@ -193,16 +193,16 @@ public class ArenaManager{
             return;
         }
         arenas.remove(a);
-        List<Integer> list = plugin.getConfig().getIntegerList("Arenas.ArenaList");
+        List<Integer> list = plugin.getArenaConfig().getIntegerList("Arenas.ArenaList");
         list.remove(i);
-        plugin.getConfig().set("Arenas.ArenaList", list);
-        plugin.getConfig().set("Arenas." + i + ".Name", null);
-        plugin.getConfig().set("Arenas." + i + ".Spawn", null);
-        plugin.getConfig().set("Arenas." + i + ".Lobby", null);
-        plugin.getConfig().set("Arenas." + i + ".MainLobby", null);
-        plugin.getConfig().set("Arenas." + i, null);
+        plugin.getArenaConfig().set("Arenas.ArenaList", list);
+        plugin.getArenaConfig().set("Arenas." + i + ".Name", null);
+        plugin.getArenaConfig().set("Arenas." + i + ".Spawn", null);
+        plugin.getArenaConfig().set("Arenas." + i + ".Lobby", null);
+        plugin.getArenaConfig().set("Arenas." + i + ".MainLobby", null);
+        plugin.getArenaConfig().set("Arenas." + i, null);
 
-        plugin.saveConfig();
+        plugin.saveArenaConfig();
     }
 
     public boolean isInGame(Player p){
@@ -216,20 +216,20 @@ public class ArenaManager{
     public void loadGames(){
         arenaSize = 0;
 
-        if(plugin.getConfig().getIntegerList("Arenas.ArenaList").isEmpty()){
+        if(plugin.getArenaConfig().getIntegerList("Arenas.ArenaList").isEmpty()){
             return;
         }
 
-        for(int i : plugin.getConfig().getIntegerList("Arenas.ArenaList")){
-            Arena a = reloadArena(deserializeLoc(plugin.getConfig().getString("Arenas." + i + ".Spawn")), deserializeLoc(plugin.getConfig().getString("Arenas." + i + ".Lobby")), deserializeLoc(plugin.getConfig().getString("Arenas." + i + ".MainLobby")), plugin.getConfig().getString("Arenas." + i + ".Name"));
+        for(int i : plugin.getArenaConfig().getIntegerList("Arenas.ArenaList")){
+            Arena a = reloadArena(deserializeLoc(plugin.getArenaConfig().getString("Arenas." + i + ".Spawn")), deserializeLoc(plugin.getArenaConfig().getString("Arenas." + i + ".Lobby")), deserializeLoc(plugin.getArenaConfig().getString("Arenas." + i + ".MainLobby")), plugin.getArenaConfig().getString("Arenas." + i + ".Name"));
             a.id = i;
         }
     }
 
-    public String serializeLoc(Location l){
+    public static String serializeLoc(Location l){
         return l.getWorld().getName()+","+l.getBlockX()+","+l.getBlockY()+","+l.getBlockZ();
     }
-    public Location deserializeLoc(String s){
+    public static Location deserializeLoc(String s){
         String[] st = s.split(",");
         return new Location(Bukkit.getWorld(st[0]), Integer.parseInt(st[1]), Integer.parseInt(st[2]), Integer.parseInt(st[3]));
     }

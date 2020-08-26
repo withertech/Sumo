@@ -61,7 +61,7 @@ public class CommandSet extends SubCommand
         if (args.length == 2)
         {
             List<String> id = new ArrayList<String>();
-            for (int i : ArenaManager.plugin.getConfig().getIntegerList("Arenas.ArenaList"))
+            for (int i : ArenaManager.plugin.getArenaConfig().getIntegerList("Arenas.ArenaList"))
             {
                 id.add(Integer.toString(i));
             }

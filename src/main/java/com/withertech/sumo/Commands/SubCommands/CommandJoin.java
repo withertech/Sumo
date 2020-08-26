@@ -58,7 +58,7 @@ public class CommandJoin extends SubCommand
         if (args.length == 2)
         {
             List<String> id = new ArrayList<String>();
-            for (Integer i : ArenaManager.plugin.getConfig().getIntegerList("Arenas.ArenaList"))
+            for (Integer i : ArenaManager.plugin.getArenaConfig().getIntegerList("Arenas.ArenaList"))
             {
                 id.add(Integer.toString(i));
             }

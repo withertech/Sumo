@@ -16,7 +16,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
@@ -29,6 +31,32 @@ public class GameListener implements Listener{
 
     public GameListener(Sumo plugin){
         GameListener.plugin = plugin;
+    }
+
+    @EventHandler
+    public void onPlayerChangedWorld(PlayerChangedWorldEvent e){
+        for(Arena a:ArenaManager.getManager().arenas){
+            if(e.getPlayer().getWorld() == ArenaManager.deserializeLoc(plugin.getArenaConfig().getString("Arenas." + a.id + ".MainLobby")).getWorld()){
+                ScoreboardManager.setScoreboard(e.getPlayer());
+                return;
+            }else {
+                ScoreboardManager.toggleScoreboard(e.getPlayer(), false);
+                return;
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoined(PlayerJoinEvent e){
+        for(Arena a:ArenaManager.getManager().arenas){
+            if(e.getPlayer().getWorld() == ArenaManager.deserializeLoc(plugin.getArenaConfig().getString("Arenas." + a.id + ".MainLobby")).getWorld()){
+                ScoreboardManager.setScoreboard(e.getPlayer());
+                return;
+            }else {
+                ScoreboardManager.toggleScoreboard(e.getPlayer(), false);
+                return;
+            }
+        }
     }
 
     @EventHandler
@@ -68,7 +96,7 @@ public class GameListener implements Listener{
                 Sign sign = (Sign) b.getState();
                 if (ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase("[Sumo]")) {
                     if(sign.getLine(2) != null && !sign.getLine(2).equals("")) {
-                        for (int i : ArenaManager.plugin.getConfig().getIntegerList("Arenas.ArenaList"))
+                        for (int i : ArenaManager.plugin.getArenaConfig().getIntegerList("Arenas.ArenaList"))
                         {
                             if(ArenaManager.getManager().getArena(i).name.equalsIgnoreCase(ChatColor.stripColor(sign.getLine(2)))){
                                 Bukkit.dispatchCommand(p, "sumo join " + i);
@@ -91,12 +119,18 @@ public class GameListener implements Listener{
         if(block == Material.LAVA && ArenaManager.getManager().isInGame(e.getPlayer()) && ArenaManager.getManager().getArenaFromPlayer(e.getPlayer()).started)
         {
             Arena a = ArenaManager.getManager().getArenaFromPlayer(e.getPlayer());
-            e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("You Died!").color(net.md_5.bungee.api.ChatColor.RED).bold(true).create());
+            e.getPlayer().sendTitle(ChatColor.RED + "You Died!", null, 5, 10, 5);
+            ArenaManager.plugin.getStatsConfig().set("Data." + e.getPlayer().getUniqueId() + ".Losses", ArenaManager.plugin.getStatsConfig().getInt("Data." + e.getPlayer().getUniqueId() + ".Losses") + 1);
+            ArenaManager.plugin.saveStatsConfig();
+            ScoreboardManager.updateScoreboard(e.getPlayer());
             ArenaManager.getManager().removePlayer(e.getPlayer());
             if((a.getPlayers().size() == 1) ){
                 for (String pname:a.getPlayers())
                 {
-                    Bukkit.getPlayer(pname).spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("You Won!").color(net.md_5.bungee.api.ChatColor.GREEN).bold(true).create());
+                    Bukkit.getPlayer(pname).sendTitle(ChatColor.GREEN + "You Won!", null, 5, 10, 5);
+                    ArenaManager.plugin.getStatsConfig().set("Data." + e.getPlayer().getUniqueId() + ".Wins", ArenaManager.plugin.getStatsConfig().getInt("Data." + e.getPlayer().getUniqueId() + ".Wins") + 1);
+                    ArenaManager.plugin.saveStatsConfig();
+                    ScoreboardManager.updateScoreboard(e.getPlayer());
                     ArenaManager.getManager().removePlayer(Bukkit.getPlayer(pname));
                 }
             }
