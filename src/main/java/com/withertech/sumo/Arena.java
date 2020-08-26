@@ -9,12 +9,12 @@ import java.util.List;
 public class Arena{
 
     //you want some info about the arena stored here
-    public Integer id = 0;//the arena id
+    public Integer id;//the arena id
     public boolean started = false;
-    public String name = "";
-    public Location spawn = null;
-    public Location lobby = null;
-    public Location mainlobby = null;//spawn location for the arena
+    public String name;
+    public Location spawn;
+    public Location lobby;
+    public Location mainlobby;//spawn location for the arena
     List<String> players = new ArrayList<String>();//list of players
 
     //now let's make a few getters/setters, and a constructor

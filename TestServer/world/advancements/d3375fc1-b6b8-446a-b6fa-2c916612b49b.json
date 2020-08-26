@@ -103,6 +103,7 @@
   },
   "minecraft:adventure/adventuring_time": {
     "criteria": {
+      "minecraft:taiga": "2020-08-26 12:38:55 -0500",
       "minecraft:deep_lukewarm_ocean": "2020-08-22 19:17:06 -0500",
       "minecraft:beach": "2020-08-22 19:15:18 -0500",
       "minecraft:plains": "2020-08-22 19:14:19 -0500"

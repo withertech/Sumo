@@ -3,6 +3,7 @@ version: @version@
 main: com.withertech.sumo.Sumo
 api-version: 1.16
 authors: [Witherking25]
+softdepend: ['Multiverse-Core']
 description: Sumo wrestling minigame minecraft
 commands:
   sumo:

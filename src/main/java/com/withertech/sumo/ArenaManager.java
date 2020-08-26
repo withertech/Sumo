@@ -6,10 +6,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ArenaManager{
 
@@ -39,7 +36,7 @@ public class ArenaManager{
     }
 
     //get an Arena object from the list
-    public Arena getArena(int i){
+    public Arena getArena(Integer i){
         for(Arena a : arenas){
             if(a.getId() == i){
                 return a;
@@ -221,7 +218,7 @@ public class ArenaManager{
         }
 
         for(int i : plugin.getArenaConfig().getIntegerList("Arenas.ArenaList")){
-            Arena a = reloadArena(deserializeLoc(plugin.getArenaConfig().getString("Arenas." + i + ".Spawn")), deserializeLoc(plugin.getArenaConfig().getString("Arenas." + i + ".Lobby")), deserializeLoc(plugin.getArenaConfig().getString("Arenas." + i + ".MainLobby")), plugin.getArenaConfig().getString("Arenas." + i + ".Name"));
+            Arena a = reloadArena(deserializeLoc(Objects.requireNonNull(plugin.getArenaConfig().getString("Arenas." + i + ".Spawn"))), deserializeLoc(Objects.requireNonNull(plugin.getArenaConfig().getString("Arenas." + i + ".Lobby"))), deserializeLoc(Objects.requireNonNull(plugin.getArenaConfig().getString("Arenas." + i + ".MainLobby"))), plugin.getArenaConfig().getString("Arenas." + i + ".Name"));
             a.id = i;
         }
     }
